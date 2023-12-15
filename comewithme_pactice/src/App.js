@@ -1,10 +1,12 @@
 import classes from "./App.module.css";
-import GoogleWrapper from "./components/GoogleWrapper";
+import GoogleWrapper from "./components/google/GoogleWrapper";
+import KakaoMap from "./components/kakao/KakaoMap";
 
 function App() {
   return (
     <div className={classes["background"]}>
-      <GoogleWrapper />
+      {/* <GoogleWrapper /> */}
+      <KakaoMap />
     </div>
   );
 }
