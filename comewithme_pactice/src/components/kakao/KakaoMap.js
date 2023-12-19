@@ -1,24 +1,22 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import geoJson from "../../data/TL_SCCO_CTPRVN.json";
 import outerGeoJson from "../../data/OUTER.json";
-
-import KakaoSelection from "./KakaoSelection";
-
 const { kakao } = window;
 
 const KakaoMap = (props) => {
   const [clickkData, setClickData] = useState(null);
-  const [cityList, setCityList] = useState([]);
 
   const areas = [];
   const features = geoJson.features;
   for (let i = 0; i < features.length; i++) {
     const name = features[i].properties.SIG_KOR_NM;
+    const englishName = features[i].properties.SIG_ENG_NM;
     const path = features[i].geometry.coordinates[0].map(
       (numList) => new kakao.maps.LatLng(Number(numList[1]), Number(numList[0]))
     );
     areas.push({
       name: name,
+      englishName: englishName,
       path: path,
     });
   }
@@ -27,11 +25,13 @@ const KakaoMap = (props) => {
   const outerFeatures = outerGeoJson.features;
   for (let i = 0; i < outerFeatures.length; i++) {
     const name = outerFeatures[i].properties.SIG_KOR_NM;
+    const englishName = outerFeatures[i].properties.SIG_ENG_NM;
     const path = outerFeatures[i].geometry.coordinates[0].map(
       (numList) => new kakao.maps.LatLng(Number(numList[1]), Number(numList[0]))
     );
     outerAreas.push({
       name: name,
+      englishName: englishName,
       path: path,
     });
   }
@@ -40,7 +40,7 @@ const KakaoMap = (props) => {
     const container = document.getElementById("map");
     const options = {
       center: new kakao.maps.LatLng(37.5642135, 127.0016985), // 이미지 지도의 중심좌표
-      level: 9,
+      level: 10,
     };
     const map = new kakao.maps.Map(container, options);
 
@@ -113,17 +113,16 @@ const KakaoMap = (props) => {
       });
     }
 
-    for (var i = 0; i < areas.length; i++) {
+    for (let i = 0; i < areas.length; i++) {
       displayArea(areas[i]);
     }
-    for (var i = 0; i < outerAreas.length; i++) {
+    for (let i = 0; i < outerAreas.length; i++) {
       outerDisplayArea(outerAreas[i]);
     }
-  }, [clickkData]);
+  }, [clickkData, areas, outerAreas]);
   return (
     <>
-      <div id="map" style={{ width: "700px", height: "500px" }}></div>
-      <KakaoSelection cityList={areas} />
+      <div id="map" style={{ width: "380px", height: "310px" }}></div>
     </>
   );
 };
