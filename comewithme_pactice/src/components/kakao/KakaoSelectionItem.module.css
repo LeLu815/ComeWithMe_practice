@@ -16,3 +16,11 @@
   color: #d1ff00;
   cursor: pointer;
 }
+
+.btn {
+  opacity: 0;
+}
+
+.clicked {
+  color: #d1ff00;
+}

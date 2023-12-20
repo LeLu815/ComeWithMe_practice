@@ -27,7 +27,7 @@ const MapContainer = () => {
         <br />
         TO EXPLOERE IN SEOUL
       </div>
-      <KakaoMap setMap={setCityListFunc} onHover={onHoverCityMap} />
+      {/* <KakaoMap setMap={setCityListFunc} onHover={onHoverCityMap} /> */}
       <KakaoSelection />
     </CardLarge>
   );
