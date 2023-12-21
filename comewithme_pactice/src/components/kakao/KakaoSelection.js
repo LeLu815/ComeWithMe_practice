@@ -1,5 +1,5 @@
 import classes from "./KakaoSelection.module.css";
-import { useState, useReducer } from "react";
+import { useState, useReducer, useEffect } from "react";
 import KakaoSelectionItem from "./KakaoSelectionItem";
 
 // const cityList = [
@@ -79,6 +79,7 @@ const KakaoSelection = () => {
     { name: "송파구", englishName: "SONGPA", number: "24", checked: false },
     { name: "강동구", englishName: "GANGDONG", number: "25", checked: false },
   ]);
+  const [citySelectCount, setCitySelectCount] = useState([]);
 
   const handleCityCheck = (cityName) => {
     setCityList((list) => {
@@ -100,24 +101,42 @@ const KakaoSelection = () => {
     setIsClicked((isClicked) => !isClicked);
   };
 
+  useEffect(() => {
+    const selectedCityList = [];
+
+    for (let i = 0; i < cityList.length; i++) {
+      if (cityList[i].checked) {
+        selectedCityList.push(cityList[i].number);
+      }
+    }
+    setCitySelectCount(selectedCityList);
+  }, [cityList]);
+
   return (
-    <fieldset className={classes.city_container}>
-      <input type="checkbox" onClick={handleAllCityCheck} />
-      {cityList.length === 0 ? (
-        <div>Sorry. Not Found</div>
-      ) : (
-        cityList.map((city) => (
-          <KakaoSelectionItem
-            city={city}
-            key={city.name}
-            checked={city.checked}
-            onCityChange={handleCityCheck}
-          >
-            {city.englishName}
-          </KakaoSelectionItem>
-        ))
-      )}
-    </fieldset>
+    <>
+      <div className={classes.city_map_count}>
+        {citySelectCount.map((num) => (
+          <span className={classes.city_map_count_num}>{num}</span>
+        ))}
+      </div>
+      <fieldset className={classes.city_container}>
+        <input type="checkbox" onClick={handleAllCityCheck} />
+        {cityList.length === 0 ? (
+          <div>Sorry. Not Found</div>
+        ) : (
+          cityList.map((city) => (
+            <KakaoSelectionItem
+              city={city}
+              key={city.name}
+              checked={city.checked}
+              onCityChange={handleCityCheck}
+            >
+              {city.englishName}
+            </KakaoSelectionItem>
+          ))
+        )}
+      </fieldset>
+    </>
   );
 };
 
